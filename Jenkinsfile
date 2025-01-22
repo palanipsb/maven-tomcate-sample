@@ -6,24 +6,25 @@
         maven 'maven3'
     } 
 
-    stages {
-        
-         
+    stages {        
         stage('Compile') {
             steps {
             sh  "mvn compile"
             }
         }
-        
-        stage('tests') {
+        stage('Tests') {
             steps {
                 sh "mvn test"
             }
-        }
-        
-        stage('Build') {
+        }        
+        stage('Build Package') {
             steps {
-                sh "mvn package"
+                sh "mvn cleanpackage"
+            }
+        }
+        stage('Deploy Package') {
+            steps {
+                deploy adapters: [tomcat9(credentialsId: 'tomcatserver-credential', path: '', url: 'http://4.206.37.40:8082/')], contextPath: 'Planview', onFailure: false, war: 'target/*.war'
             }
         }
     }
