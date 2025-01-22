@@ -19,7 +19,7 @@
         }        
         stage('Build Package') {
             steps {
-                sh "mvn cleanpackage"
+                sh "mvn clean package"
             }
         }
         stage('Deploy Package') {
